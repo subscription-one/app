@@ -29,6 +29,8 @@ import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import Register from './src/components/Routes/Register';
+import {Provider as PaperProvider} from 'react-native-paper';
+import AuthProvider from './src/components/AuthProvider';
 
 const Stack = createStackNavigator();
 
@@ -37,16 +39,20 @@ const Stack = createStackNavigator();
 
 const App = () => {
   return (
-    <SafeAreaProvider>
-      <SafeAreaView
-        style={{
-          flex: 1,
-          backgroundColor: 'white',
-        }}
-        edges={['top', 'left', 'right']}>
-        <Navigation />
-      </SafeAreaView>
-    </SafeAreaProvider>
+    <PaperProvider>
+      <SafeAreaProvider>
+        <SafeAreaView
+          style={{
+            flex: 1,
+            backgroundColor: 'black',
+          }}
+          edges={['top', 'left', 'right']}>
+          <AuthProvider>
+            <Navigation />
+          </AuthProvider>
+        </SafeAreaView>
+      </SafeAreaProvider>
+    </PaperProvider>
   );
 };
 

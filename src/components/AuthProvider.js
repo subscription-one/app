@@ -6,8 +6,13 @@ import React, {
   useState,
 } from 'react';
 
-import {newKratosSdk} from '../helper/sdk';
+import {newKratosSdk} from '../helpers/sdk';
 import {ProjectContext} from './ProjectProvider';
+import {
+  getAuthenticatedSession,
+  killAuthenticatedSession,
+  setAuthenticatedSession,
+} from '../helpers/auth';
 
 export const AuthContext = createContext({
   setSession: () => {},

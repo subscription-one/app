@@ -6,7 +6,7 @@ export const ProjectContext = createContext({
 });
 
 export default ({children}) => {
-  const [projects, setProject] = useState('playground');
+  const [project, setProject] = useState('playground');
 
   return (
     <ProjectContext.Provider

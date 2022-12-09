@@ -5,7 +5,10 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import Login from './Routes/Login';
 import Register from './Routes/Register';
+import Home from './Routes/Home';
+import Settings from './Routes/Settings';
 import {View, Text} from 'react-native';
+import Form from './Form';
 
 const Stack = createStackNavigator();
 
@@ -13,12 +16,11 @@ export default () => {
   const {isAuthenticated} = useContext(AuthContext);
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{headerShown: true}}>
-        {isAuthenticated ? (
-          <Stack.Screen name="Auth" component={Register} />
-        ) : (
-          <Stack.Screen name="notAuth" component={Login} />
-        )}
+      <Stack.Navigator screenOptions={{headerShown: false}}>
+        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="Settings" component={Settings} />
+        <Stack.Screen name="Registration" component={Register} />
+        <Stack.Screen name="Login" component={Login} />
       </Stack.Navigator>
     </NavigationContainer>
   );
