@@ -17,3 +17,8 @@ Memoization to optimise performance
 
     Dont remove import react-native-url-polyfill/auto from index.js
     https://stackoverflow.com/questions/62183745/url-pathname-or-url-searchparams-is-not-a-function-in-android-react-native
+
+# Pending
+
+    Rendering error and elements using flow in Register.js
+    In Register/Login add option to view password

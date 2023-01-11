@@ -11,7 +11,7 @@ import {TextInput as Input, Button} from 'react-native-paper';
 import {AuthContext} from '../AuthProvider';
 
 const Register = ({navigation}) => {
-  const [flow, setConfig] = useState(null);
+  const [flow, setConfig] = useState(undefined);
   const {project} = useContext(ProjectContext);
   //console.log('Project : ', project);
   const [state, setState] = useState({
@@ -50,7 +50,7 @@ const Register = ({navigation}) => {
   );
 
   useEffect(() => {
-    console.log('Auth : ', isAuthenticated);
+    //console.log('Auth : ', isAuthenticated);
 
     if (isAuthenticated) {
       navigation.navigate('Home');
@@ -62,7 +62,7 @@ const Register = ({navigation}) => {
 
   const onSubmitPress = () => {
     //console.log('OnSubmitPress : ', key);
-
+    //change payload to value derived from  flow
     const payload = {
       csrf_token: '',
       method: 'password',
@@ -75,13 +75,13 @@ const Register = ({navigation}) => {
     onSubmit(payload);
   };
   function onSubmit(payload) {
-    console.log('Payload : ', payload);
+    //console.log('Payload : ', payload);
     flow
       ? newKratosSdk(project)
           .submitSelfServiceRegistrationFlow(flow.id, payload)
           .then(({data}) => {
             if (!data.session_token || !data.session) {
-              const err = new Errror(
+              const err = new Error(
                 'New session after registration is disabled Learn More : https://www.ory.sh/kratos/docs/next/self-service/flows/user-registration#successful-registration',
               );
               return Promise.reject(err);
@@ -101,7 +101,7 @@ const Register = ({navigation}) => {
           .submitSelfServiceRegistrationFlow(flow.id, payload)
           .then(({data}) => {
             if (!dataTable.session_token || !data.session) {
-              const err = new Errror(
+              const err = new Error(
                 'New session after registration is disabled Learn More : https://www.ory.sh/kratos/docs/next/self-service/flows/user-registration#successful-registration',
               );
               return Promise.reject(err);
@@ -114,6 +114,7 @@ const Register = ({navigation}) => {
           .then(setSession)
           .catch(handleFormSubmitError(setConfig, initializeFlow))
       : Promise.resolve();*/
+
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Register </Text>
@@ -138,6 +139,13 @@ const Register = ({navigation}) => {
         value={state.password}
         onChangeText={handlePasswordChange}
       />
+      <Text style={styles.errorText}>
+        {flow?.['ui'].messages ? flow?.['ui'].messages[0].text : ''}
+      </Text>
+      {console.log('Flow UI nodes', flow?.['ui'].messages)}
+      {
+        //render input and error warning all by mapping flow ui nodes
+      }
       <Button style={styles.button} mode="contained" onPress={onSubmitPress}>
         Register
       </Button>
@@ -160,6 +168,10 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 30,
     color: 'white',
+  },
+  errorText: {
+    fontSize: 15,
+    color: 'red',
   },
   button: {
     marginTop: 10,

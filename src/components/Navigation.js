@@ -20,7 +20,7 @@ export default () => {
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Settings" component={Settings} />
         <Stack.Screen name="Registration" component={Register} />
-        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Login" component={Login} initialParams={{}} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -1,18 +1,23 @@
 import {Configuration, V0alpha2Api} from '@ory/kratos-client';
 //import Constants from 'expo-constants';
-import Config from 'react-native-config';
-
+import React from 'react';
 import axiosFactory from 'axios';
 import {resilience} from './axios';
+import {KRATOS_URL} from '@env';
+
 const axios = axiosFactory.create();
 resilience(axios); // Adds retry mechanism to axios
 // canonicalize removes the trailing slash from URLs.
 const canonicalize = (url = '') => url.replace(/\/+$/, '');
 // This value comes from ../../app.config.js
-
+//KRATOS_URL = 'http://127.0.0.1:4433';
+//'https://playground.projects.oryapis.com/';
+//'http://127.0.0.1:4433';
 export const kratosUrl = (project = 'playground') => {
-  const url = canonicalize(Config.KRATOS_URL) || '';
-  if (url.indexOf('https://playground.projects.oryapis.com/') == -1) {
+  console.log('KRATOS_URL', KRATOS_URL);
+  const url = canonicalize(KRATOS_URL) || '';
+
+  if (url.indexOf(KRATOS_URL) == -1) {
     // The URL is not from Ory, so let's just return it.
     return url;
   }
@@ -20,6 +25,7 @@ export const kratosUrl = (project = 'playground') => {
   // if you use an ory project.
   return url.replace('playground.', `${project}.`);
 };
+
 export const newKratosSdk = project =>
   new V0alpha2Api(
     new Configuration({

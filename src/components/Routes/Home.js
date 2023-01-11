@@ -2,10 +2,13 @@ import React, {useEffect, useContext} from 'react';
 import {AuthContext} from '../AuthProvider';
 import {Text, ScrollView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import {Button} from 'react-native-paper';
 
 function Home() {
   const navigation = useNavigation();
-  const {isAuthenticated, session, sessionToken} = useContext(AuthContext);
+  const {isAuthenticated, session, sessionToken, setSession} =
+    useContext(AuthContext);
+  const logout = () => setSession(null);
   useEffect(() => {
     if (!isAuthenticated || !session || !sessionToken) {
       navigation.navigate('Login');
@@ -21,6 +24,7 @@ function Home() {
 
   return (
     <ScrollView>
+      <Button onPress={logout}>Logout</Button>
       <Text>
         Welcome Back {first}
         Your Data
