@@ -1,6 +1,6 @@
 import {Configuration, V0alpha2Api} from '@ory/kratos-client';
-//import Constants from 'expo-constants';
 import React from 'react';
+
 import axiosFactory from 'axios';
 import {resilience} from './axios';
 import {KRATOS_URL} from '@env';

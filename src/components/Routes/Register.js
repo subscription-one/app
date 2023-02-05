@@ -53,9 +53,9 @@ const Register = ({navigation}) => {
     //console.log('Auth : ', isAuthenticated);
 
     if (isAuthenticated) {
-      navigation.navigate('Home');
+      navigation.navigate('PostAuth');
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, navigation]);
   if (isAuthenticated) {
     return null;
   }

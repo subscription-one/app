@@ -1,0 +1,67 @@
+import React, {useEffect, useContext} from 'react';
+import {AuthContext} from '../AuthProvider';
+import {Text, ScrollView, View} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {Button} from 'react-native-paper';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+
+function HomeScreen() {
+  return (
+    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <Text>Home!</Text>
+    </View>
+  );
+}
+
+function Profile() {
+  const {isAuthenticated, session, sessionToken, setSession} =
+    useContext(AuthContext);
+  const logout = () => setSession(null);
+  const {name: {first = String(session.identity.id)} = {}} =
+    session.identity.traits;
+  return (
+    <ScrollView>
+      <Button onPress={logout}>Logout</Button>
+      <Text>
+        Welcome Back {first}
+        Your Data
+        {JSON.stringify(session.identity.traits || '{}', null, 2)}
+        Session Token: {sessionToken}
+        {JSON.stringify(session || '{}', null, 2)}
+      </Text>
+    </ScrollView>
+  );
+}
+
+const Tab = createBottomTabNavigator();
+
+function PostAuth() {
+  const navigation = useNavigation();
+  const {isAuthenticated, session, sessionToken, setSession} =
+    useContext(AuthContext);
+  const logout = () => setSession(null);
+  useEffect(() => {
+    if (!isAuthenticated || !session || !sessionToken) {
+      navigation.navigate('Login');
+    }
+  }, [isAuthenticated, session, sessionToken]);
+  /*const {name: {first = String(session.identity.id)} = {}} =
+    session.identity.traits;*/
+  if (!isAuthenticated || !session) {
+    return null;
+  }
+  const {name: {first = String(session.identity.id)} = {}} =
+    session.identity.traits;
+
+  return (
+    <Tab.Navigator>
+      {
+        //screenOptions={{headerShown: false}}
+      }
+      <Tab.Screen name="Home3" component={HomeScreen} options={{title: 'Yo'}} />
+      <Tab.Screen name="Profile" component={Profile} options={{}} />
+    </Tab.Navigator>
+  );
+}
+
+export default PostAuth;

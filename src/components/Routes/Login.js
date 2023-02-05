@@ -51,11 +51,11 @@ const Login = ({navigation, route}) => {
       return () => {
         setFlow(undefined);
       };
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [project]),
   );
 
   function onSubmit(payload) {
-    console.log('Process.env.KRATOS_URL :', process.env);
     flow
       ? newKratosSdk(project)
           .submitSelfServiceLoginFlow(flow.id, payload, sessionToken)
@@ -64,7 +64,7 @@ const Login = ({navigation, route}) => {
           .then(session => {
             setSession(session);
             setTimeout(() => {
-              navigation.navigate('Home');
+              navigation.navigate('PostAuth');
             }, 100);
           })
           .catch(handleFormSubmitError(setFlow, initializeFlow))
@@ -101,8 +101,12 @@ const Login = ({navigation, route}) => {
         onChangeText={handlePasswordChange}
       />
       <Text style={styles.errorText}>
-        {flow?.['ui']?.['nodes'].map(element => {
-          if (element.messages.length > 0) return element?.messages[0].text;
+        {/*console.log('Check :', flow?.ui.nodes)
+         */}
+        {flow?.ui?.nodes.map(element => {
+          if (element.messages.length > 0) {
+            return element?.messages[0].text;
+          }
         })}
       </Text>
 
