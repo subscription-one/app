@@ -4,14 +4,7 @@ import {Text, ScrollView, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {Button} from 'react-native-paper';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-
-function HomeScreen() {
-  return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text>Home!</Text>
-    </View>
-  );
-}
+import Home from './Home';
 
 function Profile() {
   const {isAuthenticated, session, sessionToken, setSession} =
@@ -27,6 +20,7 @@ function Profile() {
         Your Data
         {JSON.stringify(session.identity.traits || '{}', null, 2)}
         Session Token: {sessionToken}
+        {console.log('Session Token :', sessionToken)}
         {JSON.stringify(session || '{}', null, 2)}
       </Text>
     </ScrollView>
@@ -54,11 +48,8 @@ function PostAuth() {
     session.identity.traits;
 
   return (
-    <Tab.Navigator>
-      {
-        //screenOptions={{headerShown: false}}
-      }
-      <Tab.Screen name="Home3" component={HomeScreen} options={{title: 'Yo'}} />
+    <Tab.Navigator screenOptions={{headerShown: false}}>
+      <Tab.Screen name="Home3" component={Home} />
       <Tab.Screen name="Profile" component={Profile} options={{}} />
     </Tab.Navigator>
   );
