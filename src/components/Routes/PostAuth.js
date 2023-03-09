@@ -5,11 +5,17 @@ import {useNavigation} from '@react-navigation/native';
 import {Button} from 'react-native-paper';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Home from './Home';
+import {MMKV} from 'react-native-mmkv';
+
+export const storage = new MMKV();
 
 function Profile() {
   const {isAuthenticated, session, sessionToken, setSession} =
     useContext(AuthContext);
-  const logout = () => setSession(null);
+  const logout = () => {
+    storage.clearAll();
+    setSession(null);
+  };
   const {name: {first = String(session.identity.id)} = {}} =
     session.identity.traits;
   return (
@@ -20,7 +26,9 @@ function Profile() {
         Your Data
         {JSON.stringify(session.identity.traits || '{}', null, 2)}
         Session Token: {sessionToken}
-        {console.log('Session Token :', sessionToken)}
+        {
+          //logger.info('Session Token :', sessionToken)
+        }
         {JSON.stringify(session || '{}', null, 2)}
       </Text>
     </ScrollView>
@@ -33,12 +41,15 @@ function PostAuth() {
   const navigation = useNavigation();
   const {isAuthenticated, session, sessionToken, setSession} =
     useContext(AuthContext);
-  const logout = () => setSession(null);
+  const logout = () => {
+    storage.clearAll();
+    setSession(null);
+  };
   useEffect(() => {
     if (!isAuthenticated || !session || !sessionToken) {
       navigation.navigate('Login');
     }
-  }, [isAuthenticated, session, sessionToken]);
+  }, [isAuthenticated, navigation, session, sessionToken]);
   /*const {name: {first = String(session.identity.id)} = {}} =
     session.identity.traits;*/
   if (!isAuthenticated || !session) {

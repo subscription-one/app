@@ -22,4 +22,17 @@ Memoization to optimise performance
 # Pending
 
     Rendering error and elements using flow in Register.js
-    In Register/Login add option to view password
+
+# Technical Debt
+
+    In Register/Login
+        add option to view password
+        add option to view email
+        Improve code of rendering of error message
+    After register/login/logout delete gcredentials from key value storage using react-native-mmkv
+    Merge key value store and context global api
+    shift scope url and iosclient id to config file from Home.js
+
+# Idea Bucket
+
+    Multiple Email support

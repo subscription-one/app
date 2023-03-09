@@ -69,7 +69,9 @@ export function handleFormSubmitError(setConfig, initialize, logout) {
             });
             return Promise.resolve();
           }
-          console.debug('Form validation failed:', err.response.data);
+          console.debug(
+            `Form validation failed : ${JSON.stringify(err.response.data)}`,
+          );
           setConfig(err.response.data);
           return Promise.resolve();
         case 404:

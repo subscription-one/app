@@ -14,7 +14,7 @@ const canonicalize = (url = '') => url.replace(/\/+$/, '');
 //'https://playground.projects.oryapis.com/';
 //'http://127.0.0.1:4433';
 export const kratosUrl = (project = 'playground') => {
-  console.log('KRATOS_URL', KRATOS_URL);
+  //console.log('KRATOS_URL', KRATOS_URL);
   const url = canonicalize(KRATOS_URL) || '';
 
   if (url.indexOf(KRATOS_URL) == -1) {

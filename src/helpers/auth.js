@@ -1,6 +1,6 @@
 import AsyncStore from '@react-native-async-storage/async-storage';
 import * as SecureStore from 'expo-secure-store';
-
+//To be replace with light non expo repo maybe react-native-mmkv
 const userSessionName = 'user_session';
 
 export const getAuthenticatedSession = () => {
