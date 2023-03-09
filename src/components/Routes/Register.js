@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState, useCallback} from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 import {useFocusEffect} from '@react-navigation/native';
 import {SelfServiceFlow} from '../Ory/Ui';
@@ -32,13 +32,16 @@ const Register = ({navigation}) => {
   };
 
   const {setSession, isAuthenticated} = useContext(AuthContext);
-  const initializeFlow = () =>
-    newKratosSdk(project)
-      .initializeSelfServiceRegistrationFlowWithoutBrowser()
-      .then(({data: flow}) => {
-        setConfig(flow);
-      })
-      .catch(console.error);
+  const initializeFlow = useCallback(
+    () =>
+      newKratosSdk(project)
+        .initializeSelfServiceRegistrationFlowWithoutBrowser()
+        .then(({data: flow}) => {
+          setConfig(flow);
+        })
+        .catch(console.error),
+    [project],
+  );
 
   useFocusEffect(
     React.useCallback(() => {
@@ -46,7 +49,7 @@ const Register = ({navigation}) => {
       return () => {
         setConfig(undefined);
       };
-    }, [project]),
+    }, [initializeFlow]),
   );
 
   useEffect(() => {
@@ -71,7 +74,7 @@ const Register = ({navigation}) => {
         email: state.email,
       },
     };
-    console.log('Payload : ', payload);
+    //console.log('Payload : ', payload);
     onSubmit(payload);
   };
   function onSubmit(payload) {
@@ -140,9 +143,21 @@ const Register = ({navigation}) => {
         onChangeText={handlePasswordChange}
       />
       <Text style={styles.errorText}>
-        {flow?.['ui'].messages ? flow?.['ui'].messages[0].text : ''}
+        {flow?.ui.messages ? flow?.ui.messages[0].text : ''}
+        {flow?.ui.nodes
+          ? flow?.ui.nodes.filter(element => element?.messages?.length > 0)?.[0]
+              ?.messages?.[0]?.text
+          : ''}
+        {/*
+        Reasons not use for some errors context is empty
+        flow?.ui.nodes
+          ?
+              flow?.ui.nodes.filter(
+                element => element?.messages?.length > 0,
+              )?.[0]?.messages?.[0]?.context,
+
+              : ''*/}
       </Text>
-      {console.log('Flow UI nodes', flow?.['ui'].messages)}
       {
         //render input and error warning all by mapping flow ui nodes
       }

@@ -108,6 +108,7 @@ const Login = ({navigation, route}) => {
             return element?.messages[0].text;
           }
         })}
+        {flow?.ui?.messages?.[0]?.text}
       </Text>
 
       <Button style={styles.button} mode="contained" onPress={onSubmitPress}>
